@@ -1,0 +1,92 @@
+@startuml
+' Define classes for the hotel management system
+
+class Hotel {
+  +String name
+  +String address
+  +String phoneNumber
+  +int stars
+  +List<Room> rooms
+  +List<Staff> staff
+
+  +makeReservation(Guest, Room, Date, Date): Reservation
+  +addRoom(Room): void
+  +addStaff(Staff): void
+}
+
+class Room {
+  +int roomNumber
+  +String type
+  +double pricePerNight
+  +boolean isAvailable
+
+  +bookRoom(Date, Date): boolean
+  +checkAvailability(Date, Date): boolean
+}
+
+class Guest {
+  +int guestID
+  +String name
+  +String contactInfo
+  +List<Reservation> reservations
+
+  +makePayment(double): Payment
+}
+
+class Reservation {
+  +int reservationID
+  +Date checkInDate
+  +Date checkOutDate
+  +Room room
+  +Guest guest
+  +Payment payment
+  +ReservationStatus status
+
+  +confirmReservation(): void
+  +cancelReservation(): void
+}
+
+class Payment {
+  +int paymentID
+  +double amount
+  +Date paymentDate
+  +PaymentMethod method
+  +Reservation reservation
+
+  +processPayment(): boolean
+}
+
+class Staff {
+  +int staffID
+  +String name
+  +String role
+  +double salary
+
+  +assignTask(String): void
+}
+
+enum ReservationStatus {
+  CONFIRMED
+  CANCELLED
+  PENDING
+}
+
+enum PaymentMethod {
+  CREDIT_CARD
+  DEBIT_CARD
+  CASH
+  ONLINE_PAYMENT
+}
+
+' Define relationships between classes
+
+Hotel "1" -- "0..*" Room
+Hotel "1" -- "0..*" Staff
+Hotel "1" -- "0..*" Reservation
+Reservation "1" -- "1" Room
+Reservation "1" -- "1" Guest
+Reservation "1" -- "1" Payment
+Guest "1" -- "0..*" Reservation
+Room "1" -- "0..1" Reservation
+
+@enduml

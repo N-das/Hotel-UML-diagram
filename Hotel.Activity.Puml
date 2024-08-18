@@ -1,0 +1,62 @@
+@startuml
+start
+:Guest visits hotel website;
+:Guest searches for available rooms;
+if (Room available?) then (yes)
+  :Selects a room;
+  :Enters guest details;
+  :Confirms reservation;
+  :Receives confirmation;
+else (no)
+  :Shows "No rooms available";
+endif
+stop
+@enduml
+
+@startuml
+start
+:Guest arrives at the hotel;
+:Provides reservation details;
+if (Reservation found?) then (yes)
+  :Staff verifies reservation;
+  :Assigns room to the guest;
+  :Guest receives room key;
+  :Guest checks into the room;
+else (no)
+  :Staff checks room availability;
+  if (Room available?) then (yes)
+    :Creates a new reservation;
+    :Assigns room to the guest;
+    :Guest receives room key;
+    :Guest checks into the room;
+  else (no)
+    :Inform guest "No rooms available";
+  endif
+endif
+stop
+@enduml
+
+@startuml
+start
+:Guest requests check-out;
+:Staff retrieves reservation details;
+:Staff prepares the bill;
+:Guest reviews the bill;
+if (Bill correct?) then (yes)
+  :Guest makes payment;
+  :Staff updates reservation status to "Checked Out";
+  :Guest returns room key;
+  :Guest departs;
+else (no)
+  :Staff corrects the bill;
+  repeat
+    :Guest reviews the corrected bill;
+  repeat while (Bill still incorrect?)
+  :Guest makes payment;
+  :Staff updates reservation status to "Checked Out";
+  :Guest returns room key;
+  :Guest departs;
+endif
+stop
+@enduml
+

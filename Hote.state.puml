@@ -1,0 +1,13 @@
+@startuml
+' [*] --> Available
+
+Available --> Reserved : Reservation made
+Reserved --> CheckedIn : Guest checks in
+CheckedIn --> Occupied : Guest occupies room
+Occupied --> CheckedOut : Guest checks out
+CheckedOut --> Cleaning : Room needs cleaning
+Cleaning --> Available : Room cleaned and ready
+
+Available --> Maintenance : Maintenance required
+Maintenance --> Available : Maintenance completed
+@enduml

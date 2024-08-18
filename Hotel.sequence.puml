@@ -1,0 +1,40 @@
+'for Making reservation
+@startuml
+actor Guest
+Guest -> HotelSystem : Search available rooms
+HotelSystem -> Room : Check availability
+Room --> HotelSystem : Return available rooms
+HotelSystem --> Guest : Show available rooms
+
+Guest -> HotelSystem : Select room and provide details
+HotelSystem -> Reservation : Create reservation
+Reservation --> HotelSystem : Reservation confirmed
+HotelSystem --> Guest : Send confirmation
+@enduml
+
+'for check-in 
+@startuml
+actor Guest
+Guest -> HotelReception : Provide reservation details
+HotelReception -> Reservation : Verify reservation
+Reservation --> HotelReception : Reservation details
+HotelReception -> Room : Assign room
+Room --> HotelReception : Room assigned
+HotelReception -> Guest : Provide room key
+Guest --> Room : Check into room
+@enduml
+
+@startuml
+actor Guest
+Guest -> HotelReception : Request check-out
+HotelReception --> Reservation : Retrieve reservation details
+Reservation --> HotelReception : Reservation details
+HotelReception -> BillingSystem : Prepare bill
+BillingSystem --> HotelReception : Bill details
+HotelReception -> Guest : Present bill
+Guest -> BillingSystem : Make payment
+BillingSystem --> HotelReception : Payment confirmation
+HotelReception -> Reservation : Update status to "Checked Out"
+HotelReception -> Guest : Request room key return
+Guest -> HotelReception : Return room key
+@enduml
