@@ -1,5 +1,4 @@
 @startuml
-' Define classes for the hotel management system
 
 class Hotel {
   +String name
@@ -77,8 +76,6 @@ enum PaymentMethod {
   CASH
   ONLINE_PAYMENT
 }
-
-' Define relationships between classes
 
 Hotel "1" -- "0..*" Room
 Hotel "1" -- "0..*" Staff
