@@ -38,25 +38,27 @@ stop
 
 @startuml
 start
-:Guest requests check-out;
-:Staff retrieves reservation details;
-:Staff prepares the bill;
-:Guest reviews the bill;
-if (Bill correct?) then (yes)
-  :Guest makes payment;
-  :Staff updates reservation status to "Checked Out";
-  :Guest returns room key;
-  :Guest departs;
+:Guest visits hotel website or hotel counter;
+:Guest searches for available rooms with specify date and type;
+if (Room available?) then (yes)
+  :Selects a room;
+  :Enters guest details;
+  :Confirms booking;
+  ' :Ask how guest would like to pay cash, cheque or card;
+  split
+    :Choose Cash;
+  split again
+    :Choose Card;
+  split again
+    :Choose GPay;
+  end split
+    if (Payment done) then (yes)
+    :Receives confirmation; 
+    else (no)
+    :Booking failed;
+    endif
 else (no)
-  :Staff corrects the bill;
-  repeat
-    :Guest reviews the corrected bill;
-  repeat while (Bill still incorrect?)
-  :Guest makes payment;
-  :Staff updates reservation status to "Checked Out";
-  :Guest returns room key;
-  :Guest departs;
+  :Shows "No rooms available";
 endif
 stop
 @enduml
-
