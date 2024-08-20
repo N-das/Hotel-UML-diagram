@@ -2,15 +2,14 @@
 
 class Hotel {
   +String name
-  +String address
-  +String phoneNumber
   +int stars
-  +List<Room> rooms
-  +List<Staff> staff
+}
 
-  +makeReservation(Guest, Room, Date, Date): Reservation
-  +addRoom(Room): void
-  +addStaff(Staff): void
+class HotelLocation{
+  +String name
+  +String Adress
+  +String PhoneNumber
+  +List<Room> rooms
 }
 
 class Room {
@@ -19,20 +18,63 @@ class Room {
   +double pricePerNight
   +boolean isAvailable
 
-  +bookRoom(Date, Date): boolean
-  +checkAvailability(Date, Date): boolean
+  +isRoomAvailable():boolean
+  +checkIn():boolean
+  +checkOut():boolean
+}
+
+class RoomHouseKeeping{
+  String Description
+  Date StartDate
+  int Duration
+
+  addHouseKeeping():boolean
+}
+
+class RoomKey{
+  +int RoomNumber
+  +String Barcode
+  +issueAt Date
+  +boolean Active
+  +boolean master
+}
+
+class Account{
+  +String id
+  +String password 
+  +String status
+
+  resetPassword():boolean
+}
+
+class Person{
+  +String name
+  +String Address
+  +String email
+  +String Phone
+  +String AccountType
+}
+
+class HouseKeeper{
+  assignToRoom():boolean
 }
 
 class Guest {
-  +int guestID
-  +String name
-  +String contactInfo
-  +List<Reservation> reservations
-
-  +makePayment(double): Payment
+  +int totalRoomsCheckin
+  +createBooking():boolean
 }
 
-class Reservation {
+class Receptionist{
+  +createBooking():boolean
+}
+
+
+class Search{
+  <b>Search</b>
+  +searchRoom(type,startDate,endDate)
+}
+
+class RoomBooking {
   +int reservationID
   +Date checkInDate
   +Date checkOutDate
@@ -45,45 +87,83 @@ class Reservation {
   +cancelReservation(): void
 }
 
-class Payment {
-  +int paymentID
+ class Invoice{
+   +double amount
+
+   createBill():boolean
+}
+
+class BillTransaction {
   +double amount
   +Date paymentDate
-  +PaymentMethod method
-  +Reservation reservation
+  +status paymentStatus
 
-  +processPayment(): boolean
+  iniateTransaction():boolean
 }
 
-class Staff {
-  +int staffID
-  +String name
-  +String role
-  +double salary
-
-  +assignTask(String): void
+class CreditTransaction{
+  -String nameOnCard
+  -String code
 }
 
-enum ReservationStatus {
+class CheckTransaction{
+  -String bankName
+  -String checkNumber
+}
+
+class CashTransaction{
+  -double Amount
+}
+
+enum RoomType{
+  Standard
+  Deluxe
+  FamilySuite
+  BusinessSuite
+}
+
+enum PaymentStatus {
   CONFIRMED
   CANCELLED
   PENDING
 }
 
-enum PaymentMethod {
-  CREDIT_CARD
-  DEBIT_CARD
-  CASH
-  ONLINE_PAYMENT
+enum AccountType{
+  Guest
+  Receptionist
 }
 
-Hotel "1" -- "0..*" Room
-Hotel "1" -- "0..*" Staff
-Hotel "1" -- "0..*" Reservation
-Reservation "1" -- "1" Room
-Reservation "1" -- "1" Guest
-Reservation "1" -- "1" Payment
-Guest "1" -- "0..*" Reservation
-Room "1" -- "0..1" Reservation
+enum AccountStatus{
+  Active
+  Closed
+  Canceled
+  Blacklisted
+}
+
+Hotel "1" *-- "0..*" HotelLocation
+HotelLocation "1" *-- "0..*" Room
+'HotelLocation "1" -- "0..*" Reservation
+'Reservation "1" -- "1" Room
+RoomBooking "1" <-- "1" Guest
+RoomBooking "1" <-- "1" Receptionist
+'Guest "1" -- "0..*" Reservation
+'Room "1" -- "0..1" Reservation
+Room "1" *-- "0..1" RoomKey
+Room "1" *-- "0..1" RoomHouseKeeping
+HouseKeeper "1" --|> "*" Person
+HouseKeeper --> RoomHouseKeeping
+Person <|-- Guest
+Person <|-- Receptionist
+Account --> Person
+Room ..|> Search
+Receptionist ..|> Search
+Guest ..|> Search
+
+
+Invoice *-- RoomBooking
+BillTransaction --* Invoice
+BillTransaction <|-- CreditTransaction
+BillTransaction <|-- CheckTransaction
+BillTransaction <|-- CashTransaction
 
 @enduml
