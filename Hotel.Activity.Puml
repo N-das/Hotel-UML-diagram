@@ -59,6 +59,12 @@ if (Room available?) then (yes)
     endif
 else (no)
   :Shows "No rooms available";
+  :Ask for future reservation;
+  if(Respond Yes) then (yes)
+  :make future reservation;
+  else (no)
+  :Thank you;
+  endif
 endif
 stop
 @enduml
